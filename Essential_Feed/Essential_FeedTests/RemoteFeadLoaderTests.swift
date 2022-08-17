@@ -43,13 +43,16 @@ class RemoteFeadLoaderTests: XCTestCase {
     
     func test_load_deliversErrorOnNon200HTTPResponse() {
         let (sut, client) = makeSUT()
-       
-        var capturedError = [RemoteFeedLoader.Error]()
+        let wrongStatusCode = [199, 201, 300, 400, 500]
         
-        sut.load { capturedError.append($0) }
-        client.complete(withStatusCode: 400)
-        
-        XCTAssertEqual(capturedError, [.invalidData])
+        wrongStatusCode.enumerated().forEach { index, code in
+            var capturedError = [RemoteFeedLoader.Error]()
+            sut.load { capturedError.append($0) }
+            
+            client.complete(withStatusCode: code,at: index)
+            
+            XCTAssertEqual(capturedError, [.invalidData])
+        }
         //dessa forma é possível tbm capturar a quantidade de vezes que o erro foi chamado
     }
     
