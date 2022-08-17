@@ -1,22 +1,6 @@
 import XCTest
+import Essential_Feed
 
-class RemoteFeedLoader {
-    let client: HTTPClient
-    let url: URL
-    
-    init(client: HTTPClient, url: URL) {
-        self.client = client
-        self.url = url
-    }
-    
-    func load() {
-        client.getFrom(from: url)
-    }
-}
-
-protocol HTTPClient {
-    func getFrom(from url: URL)
-}
 
 class RemoteFeadLoaderTests: XCTestCase {
 
