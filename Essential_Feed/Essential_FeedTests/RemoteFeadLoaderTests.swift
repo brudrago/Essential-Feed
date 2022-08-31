@@ -44,7 +44,8 @@ class RemoteFeadLoaderTests: XCTestCase {
         
         wrongStatusCode.enumerated().forEach { index, code in
             expect(sut, toCompleteWith: .failure(.invalidData)) {
-                client.complete(withStatusCode: code, at: index)
+                let json = makeItemsJSON([])
+                client.complete(withStatusCode: code, data: json, at: index)
             }
         }
         //dessa forma é possível tbm capturar a quantidade de vezes que o erro foi chamado
@@ -147,7 +148,7 @@ class RemoteFeadLoaderTests: XCTestCase {
             messages[index].completion(.failure(error))
         }
         
-        func complete(withStatusCode code: Int, data: Data = Data(),  at index: Int = 0) {
+        func complete(withStatusCode code: Int, data: Data,  at index: Int = 0) {
             let response = HTTPURLResponse(
                 url: requestedURLs[index],
                 statusCode: code,
