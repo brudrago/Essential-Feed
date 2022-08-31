@@ -53,6 +53,7 @@ private class FeedItemsMapper {
     }
 
     //representação dos dados da API, pra não quebrar caso o back-end mude algum parametro
+    //decouple
 
     private struct Item: Decodable {
          let id: UUID
@@ -70,8 +71,10 @@ private class FeedItemsMapper {
         }
     }
     
+    static var OK_200StatusCode: Int { return 200 }
+    
     static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [FeedItem] {
-        guard response.statusCode == 200 else {
+        guard response.statusCode == OK_200StatusCode else {
             throw RemoteFeedLoader.Error.invalidData
         }
         return try JSONDecoder().decode(Root.self, from: data).items.map{ $0.item }
