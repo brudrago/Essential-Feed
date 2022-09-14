@@ -94,6 +94,7 @@ class RemoteFeadLoaderTests: XCTestCase {
         
     }
     
+    // teste  [weak self]
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let client = HTTPClientSpy()
         let url = URL(string: "http://any-url.com")!
