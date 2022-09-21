@@ -1,7 +1,7 @@
 import Essential_Feed
 import XCTest
 
-//Substituir o protocolo real URLSessio/URLSessionDataTask por protocolos c/ os métodos necessários,porque usando o real nao temos controle da classe ou da implementação, porém o trade-off é ter 2 protocolos em PROD , apenas para usar nos testes.
+//Substituir o protocolo real URLSession/URLSessionDataTask por protocolos c/ os métodos necessários,porque usando o real nao temos controle da classe ou da implementação, porém o trade-off é ter 2 protocolos em PROD , apenas para usar nos testes.
 //protocol HTTPSession {
 //    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> HTTPSessionTask
 //}
@@ -30,7 +30,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
         URLProtocolStub.startInterceptingRequests()
         let url = URL(string: "https://any-url.com")!
         let error = NSError(domain: "any error", code: 1)
-        URLProtocolStub.stub(url: url, error: error)
+        URLProtocolStub.stub(url: url, data: nil, response: nil, error: error)
         
         let sut = URLSessionHTTPClient()
         
@@ -55,11 +55,13 @@ final class URLSessionHTTPClientTests: XCTestCase {
     private class URLProtocolStub: URLProtocol {
         private static var stubs = [URL: Stub]()
         private struct Stub {
+            let data: Data?
+            let response: URLResponse?
             let error: Error?
         }
         
-        static func stub(url: URL, error: Error? = nil) {
-            stubs[url] = Stub(error: error)
+        static func stub(url: URL, data: Data?, response: URLResponse?, error: Error?) {
+            stubs[url] = Stub(data: data, response: response, error: error)
         }
         
         static func startInterceptingRequests() {
@@ -83,6 +85,14 @@ final class URLSessionHTTPClientTests: XCTestCase {
         
         override func startLoading() {
             guard let url = request.url, let stub = URLProtocolStub.stubs[url] else { return }
+            
+            if let data = stub.data {
+                client?.urlProtocol(self, didLoad: data)
+            }
+            
+            if let response = stub.response {
+                client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+            }
             
             if let error = stub.error {
                 client?.urlProtocol(self, didFailWithError: error)
