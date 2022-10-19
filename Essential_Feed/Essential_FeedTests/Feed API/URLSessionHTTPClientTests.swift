@@ -7,7 +7,7 @@ import XCTest
 //}
 
 
-final class URLSessionHTTPClient {
+final class URLSessionHTTPClient: HTTPClient {
     private let session: URLSession
     
     init(session: URLSession = .shared) {
@@ -25,7 +25,6 @@ final class URLSessionHTTPClient {
             } else {
                 completion(.failure(UnexpectedValuesRepresentation()))
             }
-            
         }.resume()
     }
 }
@@ -33,27 +32,29 @@ final class URLSessionHTTPClient {
 final class URLSessionHTTPClientTests: XCTestCase {
     
     override class func setUp() {
+        super.setUp()
         URLProtocolStub.startInterceptingRequests()
     }
     
     override class func tearDown() {
+        super.tearDown()
         URLProtocolStub.stopInterceptingRequests()
     }
     
-    //    func test_getFromURL_performsGETRequestWithURL() {
-    //        let url = anyURL()
-    //        let exp = expectation(description: "Wait for request")
-    //
-    //        URLProtocolStub.observeRequests { request in
-    //            XCTAssertEqual(request.url, url)
-    //            XCTAssertEqual(request.httpMethod,"GET")
-    //            exp.fulfill()
-    //        }
-    //
-    //        makeSUT().get(from: url) { _ in}
-    //
-    //        wait(for: [exp], timeout: 1.0)
-    //    }
+//    func test_getFromURL_performsGETRequestWithURL() {
+//        let url = anyURL()
+//        let exp = expectation(description: "Wait for request")
+//        
+//        URLProtocolStub.observeRequests { request in
+//            XCTAssertEqual(request.url, url)
+//            XCTAssertEqual(request.httpMethod,"GET")
+//            exp.fulfill()
+//        }
+//        
+//        makeSUT().get(from: url) { _ in}
+//        
+//        wait(for: [exp], timeout: 1.0)
+//    }
     
     func test_getFromURL_failsOnRequestError() {
         let requestError = anyNSError()
@@ -98,7 +99,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
     
     //MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> URLSessionHTTPClient {
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> HTTPClient {
         let sut = URLSessionHTTPClient()
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
