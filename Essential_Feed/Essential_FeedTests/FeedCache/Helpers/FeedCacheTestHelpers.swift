@@ -1,15 +1,7 @@
 import Essential_Feed
 
-func anyNSError() -> NSError {
-    return NSError(domain: "any error", code: 0)
-}
-
 func uniqueImage() -> FeedImage {
     FeedImage(id: UUID(), description: "description", location: "location", url: anyURL())
-}
-
-func anyURL() -> URL {
-    return URL(string: "https://any-url.com")!
 }
 
 func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
