@@ -78,6 +78,16 @@ final class CodableFeedStoreTests: XCTestCase {
         XCTAssertNil(lastestInsertionError, "Expected to override cache successfully")
         expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
     }
+    
+    func test_insert_deliversErrorOnInsertionError() {
+        let invalidStoreURL = URL(string: "invalid://store-url")
+        let sut = makeSUT(storeURL: invalidStoreURL)
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        
+        let insertionError = insert((feed, timestamp), to: sut)
+        XCTAssertNotNil(insertionError, "Expected to insert cache successfully")
+    }
 }
 
 //-MARK: - Helpers
