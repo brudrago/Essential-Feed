@@ -28,9 +28,9 @@
             testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7B83253B29E1F11000C5AC4C"
-               BuildableName = "EssentialFeedCacheIntegrationTests.xctest"
-               BlueprintName = "EssentialFeedCacheIntegrationTests"
+               BlueprintIdentifier = "7B83255F29E1F8B300C5AC4C"
+               BuildableName = "Essential_FeedCacheIntegrationTests.xctest"
+               BlueprintName = "Essential_FeedCacheIntegrationTests"
                ReferencedContainer = "container:Essential_Feed.xcodeproj">
             </BuildableReference>
          </TestableReference>
