@@ -126,16 +126,13 @@ class RemoteFeadLoaderTests: XCTestCase {
 
     private func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedImage, json: [String: Any]) {
         let item = FeedImage(id: id, description: description, location: location, url: imageURL)
-        
+
         let json = [
             "id": id.uuidString,
             "description": description,
             "location": location,
             "image": imageURL.absoluteString
-        ].reduce(into: [String: Any]()) { partialResult, element in
-            if let value = element.value { partialResult[element.key] = value }
-            //removendo valores opcionais (description e location) quando eles forem nulos
-        }
+        ].compactMapValues { $0 }
         
         return (item, json)
     }
