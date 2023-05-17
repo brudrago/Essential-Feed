@@ -3,25 +3,25 @@ import XCTest
 
 final class EssentialFeedAPIEndToEndTests: XCTestCase {
 
-//    func test_endToEndTestServerGETFeedResult_matchesFixedTestAccountData() {
-//        switch getFeedResult() {
-//        case let .success(items):
-//            XCTAssertEqual(items.count, 8, "Expected 8 image feed in the test account feed")
-//            XCTAssertEqual(items[0], expectedImage(at: 0))
-//            XCTAssertEqual(items[1], expectedImage(at: 1))
-//            XCTAssertEqual(items[2], expectedImage(at: 2))
-//            XCTAssertEqual(items[3], expectedImage(at: 3))
-//            XCTAssertEqual(items[4], expectedImage(at: 4))
-//            XCTAssertEqual(items[5], expectedImage(at: 5))
-//            XCTAssertEqual(items[6], expectedImage(at: 6))
-//            XCTAssertEqual(items[7], expectedImage(at: 7))
-//
-//        case let .failure(error):
-//            XCTFail("Expected sucessful feed result, got \(error) instead.")
-//        default:
-//            XCTFail("Expected sucessful feed result, got no result instead.")
-//        }
-//    }
+    func test_endToEndTestServerGETFeedResult_matchesFixedTestAccountData() {
+        switch getFeedResult() {
+        case let .success(items):
+            XCTAssertEqual(items.count, 8, "Expected 8 image feed in the test account feed")
+            XCTAssertEqual(items[0], expectedImage(at: 0))
+            XCTAssertEqual(items[1], expectedImage(at: 1))
+            XCTAssertEqual(items[2], expectedImage(at: 2))
+            XCTAssertEqual(items[3], expectedImage(at: 3))
+            XCTAssertEqual(items[4], expectedImage(at: 4))
+            XCTAssertEqual(items[5], expectedImage(at: 5))
+            XCTAssertEqual(items[6], expectedImage(at: 6))
+            XCTAssertEqual(items[7], expectedImage(at: 7))
+
+        case let .failure(error):
+            XCTFail("Expected sucessful feed result, got \(error) instead.")
+        default:
+            XCTFail("Expected sucessful feed result, got no result instead.")
+        }
+    }
     
     //MARK: - Helpers
     
