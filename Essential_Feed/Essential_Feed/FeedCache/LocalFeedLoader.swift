@@ -44,7 +44,7 @@ extension LocalFeedLoader {
 }
 
 extension LocalFeedLoader: FeedLoader {
-    public typealias LoadResult = LoadFeedResult// abstrai o codigo de mudanças futuras
+    public typealias LoadResult = FeedLoader.Result// abstrai o codigo de mudanças futuras
     
     public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
