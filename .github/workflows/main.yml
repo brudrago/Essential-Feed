@@ -19,4 +19,4 @@ jobs:
       run: cd Essential_Feed && xcodebuild clean build test -project Essential_Feed.xcodeproj -scheme CI CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
       
     - name: Build and test
-      run: cd Essential_Feed && xcodebuild clean build test -project Essential_Feed.xcodeproj -scheme CI_iOS CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -destination "platform=iOS Simulator,OS=12.2,name=iPhone 8" 
+      run: cd Essential_Feed && xcodebuild clean build test -project Essential_Feed.xcodeproj -scheme CI_iOS CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -destination "platform=iOS Simulator,OS=16.2,name=iPhone 8" 
