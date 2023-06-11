@@ -42,6 +42,7 @@
 		7BBF8D442900346A003537F8 /* XCTestCase+MemoryLeaks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF8D432900346A003537F8 /* XCTestCase+MemoryLeaks.swift */; };
 		7BBF8D4629004D8B003537F8 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF8D4529004D8B003537F8 /* URLSessionHTTPClient.swift */; };
 		7BC0F3BC2A361F1A00BF7434 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC0F3B42A361F1900BF7434 /* EssentialFeediOS.framework */; };
+		7BC0F3CA2A363D6C00BF7434 /* FeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC0F3C92A363D6C00BF7434 /* FeedViewControllerTests.swift */; };
 		7BC2C59B28A2739D0073FFE7 /* RemoteFeadLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC2C59A28A2739C0073FFE7 /* RemoteFeadLoaderTests.swift */; };
 		7BFB2493289D40020007B0CD /* Essential_Feed.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7BFB2492289D40020007B0CD /* Essential_Feed.docc */; };
 		7BFB2499289D40020007B0CD /* Essential_Feed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BFB248E289D40020007B0CD /* Essential_Feed.framework */; };
@@ -114,6 +115,7 @@
 		7BBF8D4529004D8B003537F8 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		7BC0F3B42A361F1900BF7434 /* EssentialFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BC0F3BB2A361F1900BF7434 /* EssentialFeediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BC0F3C92A363D6C00BF7434 /* FeedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewControllerTests.swift; sourceTree = "<group>"; };
 		7BC2C59A28A2739C0073FFE7 /* RemoteFeadLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeadLoaderTests.swift; sourceTree = "<group>"; };
 		7BFB248E289D40020007B0CD /* Essential_Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Essential_Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BFB2491289D40020007B0CD /* Essential_Feed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Essential_Feed.h; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 		7BC0F3BF2A361F1A00BF7434 /* EssentialFeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				7BC0F3C92A363D6C00BF7434 /* FeedViewControllerTests.swift */,
 			);
 			path = EssentialFeediOSTests;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 					};
 					7BC0F3BA2A361F1900BF7434 = {
 						CreatedOnToolsVersion = 14.1;
+						LastSwiftMigration = 1410;
 					};
 					7BFB248D289D40010007B0CD = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -605,6 +609,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BC0F3CA2A363D6C00BF7434 /* FeedViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -830,15 +835,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5882QKM9XK;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brunadrago.EssentialFeed.EssentialFeediOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -848,11 +860,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5882QKM9XK;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brunadrago.EssentialFeed.EssentialFeediOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
