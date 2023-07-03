@@ -1,5 +1,4 @@
 import UIKit
-import Essential_Feed
 
 //separate FeedViewController responsabilities and dependencies
 
