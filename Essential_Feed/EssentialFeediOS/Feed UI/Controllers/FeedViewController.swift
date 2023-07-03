@@ -1,49 +1,34 @@
 import UIKit
 import Essential_Feed
 
-//Adding FeedImageDataLoader protocol abstraction, we decouple the ViewController from concrete implementations like URlSession
-//ViewController doesn`t care where the image data comes from (e.g, cache or network), this way we are free to change the implementation or add more funcionalities on demand without having to modify the controller (open/close principle)
-
-//This protocol give to client the responsability of manage the state
-public protocol FeedImageDataLoaderTask {
-    func cancel()
-}
-
-public protocol FeedImageDataLoader {
-    typealias Result = Swift.Result<Data, Error>
-    
-    func loadImageData(from url: URL, completion: @escaping (Result) -> Void) -> FeedImageDataLoaderTask
-}
+//separate FeedViewController responsabilities and dependencies
 
 public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var feedLoader: FeedLoader?
+    private var refreshController: FeedRefreshViewController?
     private var imageLoader: FeedImageDataLoader?
-    private var tableModel = [FeedImage]()
+    private var tableModel = [FeedImage]() {
+        didSet { tableView.reloadData() }
+    }
+    
     private var tasks = [IndexPath: FeedImageDataLoaderTask]()
     
-   public  convenience init(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader?) {
+    public  convenience init(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader?) {
         self.init()
-        self.feedLoader = feedLoader
-       self.imageLoader = imageLoader
+        self.refreshController = FeedRefreshViewController(feedLoader: feedLoader)
+        self.imageLoader = imageLoader
     }
     
     public override func viewDidLoad() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+        refreshControl = refreshController?.view
+        refreshController?.onRefresh = { [weak self] feed in
+            self?.tableModel = feed
+        }
+        
         tableView.prefetchDataSource = self
-        load()
+        refreshController?.refresh()
     }
     
-    @objc private func load() {
-        refreshControl?.beginRefreshing()
-        feedLoader?.load { [weak self] result in
-            if let feed = try? result.get() {
-                self?.tableModel = feed
-                self?.tableView.reloadData()
-            }
-            self?.refreshControl?.endRefreshing()
-        }
-    }
+
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableModel.count
