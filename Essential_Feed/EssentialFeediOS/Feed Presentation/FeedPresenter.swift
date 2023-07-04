@@ -20,19 +20,25 @@ struct FeedViewModel {
 //separate into 2 protocols to respect interface segregation
 
 final class FeedPresenter {
-    var feedView: FeedView?
-    var loadingView: FeedLoadingView?
+    
+    private let feedView: FeedView
+    private let loadingView: FeedLoadingView
+    
+    init(feedView: FeedView, loadingView: FeedLoadingView) {
+        self.feedView = feedView
+        self.loadingView = loadingView
+    }
     
     func didStartLoadingFeed() {
-        loadingView?.display(viewModel: .init(isLoading: true))
+        loadingView.display(viewModel: .init(isLoading: true))
     }
     
     func didFinishLoadingFeed(with feed: [FeedImage]) {
-        feedView?.display(viewModel: .init(feed: feed))
-        loadingView?.display(viewModel: .init(isLoading: false))
+        feedView.display(viewModel: .init(feed: feed))
+        loadingView.display(viewModel: .init(isLoading: false))
     }
     
     func didFinishLoadingFeed(with error: Error) {
-        loadingView?.display(viewModel: .init(isLoading: false))
+        loadingView.display(viewModel: .init(isLoading: false))
     }
 }
