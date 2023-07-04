@@ -3,7 +3,7 @@ import UIKit
 import Essential_Feed
 import EssentialFeediOS
 
-extension FeedViewControllerTests {
+extension FeedUIIntegrationTests {
     
     //Dependency Injection + Interface Segregation Principle unleashes the power of composition
     //We can either pass 2 different instances or only one that implements both protocols
