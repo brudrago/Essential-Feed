@@ -1,12 +1,21 @@
 import Essential_Feed
 
-protocol FeedView {
-    func display(feed: [FeedImage])
+protocol FeedLoadingView {
+    func display(viewModel: FeedLoadingViewModel)
 }
 
-protocol FeedLoadingView {
-    func display(isLoading: Bool)
+struct FeedLoadingViewModel {
+    let isLoading: Bool
 }
+
+protocol FeedView {
+    func display(viewModel: FeedViewModel)
+}
+
+struct FeedViewModel {
+    let feed: [FeedImage]
+}
+
 
 //separate into 2 protocols to respect interface segregation
 
@@ -24,12 +33,12 @@ final class FeedPresenter {
    
     
     func loadFeed() {
-        loadingView?.display(isLoading: true)
+        loadingView?.display(viewModel: .init(isLoading: true))
         feedLoader.load { [weak self] result in
             if let feed = try? result.get() {
-                self?.feedView?.display(feed: feed)
+                self?.feedView?.display(viewModel: .init(feed: feed))
             }
-            self?.loadingView?.display(isLoading: false)
+            self?.loadingView?.display(viewModel: .init(isLoading: false))
         }
     }
 }

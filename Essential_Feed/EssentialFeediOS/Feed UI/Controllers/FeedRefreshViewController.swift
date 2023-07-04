@@ -4,19 +4,19 @@ final class FeedRefreshViewController: NSObject, FeedLoadingView {
 
     private (set) lazy var view = loadView()
     
-    private let presenter: FeedPresenter
+    private let loadFeed: () -> Void
     
-    init(presenter: FeedPresenter) {
-        self.presenter = presenter
+    init(loadFeed: @escaping () -> Void) {
+        self.loadFeed = loadFeed
     }
     
     @objc func refresh() {
-        presenter.loadFeed()
+        loadFeed()
         
     }
-    
-    func display(isLoading: Bool) {
-        isLoading ? view.beginRefreshing() : view.endRefreshing()
+
+    func display(viewModel: FeedLoadingViewModel) {
+        viewModel.isLoading ? view.beginRefreshing() : view.endRefreshing()
     }
     
     private func loadView() -> UIRefreshControl {
@@ -25,3 +25,6 @@ final class FeedRefreshViewController: NSObject, FeedLoadingView {
         return view
     }
 }
+
+//FeedRefreshViewController only holds reference to presenter to call loadFeed method
+//One way to decouple is to pass a closure
