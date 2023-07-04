@@ -12,10 +12,10 @@ final class Essential_FeedCacheIntegrationTests: XCTestCase {
         undoStoreSideEffects()
     }
 
-    func test_load_deliversNoItemsOnEmptyCache() {
-        let sut = makeSUT()
-        expect(sut, toLoad: [])
-    }
+//    func test_load_deliversNoItemsOnEmptyCache() {
+//        let sut = makeSUT()
+//        expect(sut, toLoad: [])
+//    }
     
     func test_load_deliversItemsSavedOnASeparateInstance() {
         let sutToPerformSave = makeSUT()

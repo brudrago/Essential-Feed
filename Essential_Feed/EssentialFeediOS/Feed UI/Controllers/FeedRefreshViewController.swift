@@ -1,25 +1,34 @@
 import UIKit
 
-final class FeedRefreshViewController: NSObject {
+protocol FeedRefreshViewControllerDelegate {
+    func didRequestFeedRefresh()
+}
+
+final class FeedRefreshViewController: NSObject, FeedLoadingView {
+
+    private (set) lazy var view = loadView()
     
-    private (set) lazy var view = binded(UIRefreshControl())
+    private let delegate: FeedRefreshViewControllerDelegate
     
-    private let viewModel: FeedViewModel
-    
-    init(viewModel: FeedViewModel) {
-        self.viewModel = viewModel
+    init(delegate: FeedRefreshViewControllerDelegate) {
+        self.delegate = delegate
     }
     
     @objc func refresh() {
-        viewModel.loadFeed()
+        delegate.didRequestFeedRefresh()
         
     }
+
+    func display(viewModel: FeedLoadingViewModel) {
+        viewModel.isLoading ? view.beginRefreshing() : view.endRefreshing()
+    }
     
-    private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
-        viewModel.onLoadingStateChange = { [weak view] isLoading in
-            isLoading ? view?.beginRefreshing() : view?.endRefreshing()
-        }
+    private func loadView() -> UIRefreshControl {
+        let view = UIRefreshControl()
         view.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return view
     }
 }
+
+//FeedRefreshViewController only holds reference to presenter to call loadFeed method
+//One way to decouple is to pass a closure loadFeed: () -> Void and another is to use delegate
