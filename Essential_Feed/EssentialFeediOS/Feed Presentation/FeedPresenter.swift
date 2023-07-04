@@ -1,9 +1,14 @@
 import Essential_Feed
 
 protocol FeedView {
-    func display(isLoading: Bool)
     func display(feed: [FeedImage])
 }
+
+protocol FeedLoadingView {
+    func display(isLoading: Bool)
+}
+
+//separate into 2 protocols to respect interface segregation
 
 final class FeedPresenter {
     typealias Observer<T> = (T) -> Void
@@ -14,16 +19,17 @@ final class FeedPresenter {
         self.feedLoader = feedLoader
     }
     
-    var view: FeedView?
+    var feedView: FeedView?
+    var loadingView: FeedLoadingView?
    
     
     func loadFeed() {
-        view?.display(isLoading: true)
+        loadingView?.display(isLoading: true)
         feedLoader.load { [weak self] result in
             if let feed = try? result.get() {
-                self?.view?.display(feed: feed)
+                self?.feedView?.display(feed: feed)
             }
-            self?.view?.display(isLoading: false)
+            self?.loadingView?.display(isLoading: false)
         }
     }
 }
