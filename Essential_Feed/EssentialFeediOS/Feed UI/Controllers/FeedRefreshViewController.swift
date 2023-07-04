@@ -1,17 +1,21 @@
 import UIKit
 
+protocol FeedRefreshViewControllerDelegate {
+    func didRequestFeedRefresh()
+}
+
 final class FeedRefreshViewController: NSObject, FeedLoadingView {
 
     private (set) lazy var view = loadView()
     
-    private let loadFeed: () -> Void
+    private let delegate: FeedRefreshViewControllerDelegate
     
-    init(loadFeed: @escaping () -> Void) {
-        self.loadFeed = loadFeed
+    init(delegate: FeedRefreshViewControllerDelegate) {
+        self.delegate = delegate
     }
     
     @objc func refresh() {
-        loadFeed()
+        delegate.didRequestFeedRefresh()
         
     }
 
@@ -27,4 +31,4 @@ final class FeedRefreshViewController: NSObject, FeedLoadingView {
 }
 
 //FeedRefreshViewController only holds reference to presenter to call loadFeed method
-//One way to decouple is to pass a closure
+//One way to decouple is to pass a closure loadFeed: () -> Void and another is to use delegate
