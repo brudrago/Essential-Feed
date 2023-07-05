@@ -26,6 +26,14 @@ extension MainQueueDispachDecorator: FeedLoader where T == FeedLoader {
     }
 }
 
+extension MainQueueDispachDecorator: FeedImageDataLoader where T == FeedImageDataLoader {
+    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
+        return decoratee.loadImageData(from: url) { [weak self] result in
+            self?.dispatch { completion(result) }
+        }
+    }
+}
+
 //Adding behavior without change code, adding behavior to an instance keeping same interface
 //final class MainQueueDispachDecorator: FeedLoader {
 //
