@@ -1,3 +1,4 @@
+import Essential_Feed
 import XCTest
 
 protocol FeedLoadingView {
@@ -37,6 +38,8 @@ final class FeedPresenter {
         errorView.display(viewModel: .noError)
         loadingView.display(viewModel: .init(isLoading: true))
     }
+    
+    func didFinishLoadingFeed(with feed: [FeedImage]) {}
 }
 
 final class FeedPresenterTests: XCTestCase {
@@ -67,19 +70,22 @@ final class FeedPresenterTests: XCTestCase {
     
     private class ViewSpy: FeedErrorView, FeedLoadingView {
 
-        enum Message: Equatable {
+        enum Message: Hashable {
             case display(errorMessage: String?)
             case display(isLoading: Bool)
         }
         
-        private (set) var messages = [Message]()
+        private (set) var messages = Set<Message>()
         
         func display(viewModel: FeedErrorViewModel) {
-            messages.append(.display(errorMessage: viewModel.message))
+            messages.insert(.display(errorMessage: viewModel.message))
         }
         
         func display(viewModel: FeedLoadingViewModel) {
-            messages.append(.display(isLoading: viewModel.isLoading))
+            messages.insert(.display(isLoading: viewModel.isLoading))
         }
     }
 }
+
+//Arrays are ordered, when the order doesn't matter, try to use SET, cause if you change the order of methods called, the test will break because we are using an array.
+//On this case, SET are better
