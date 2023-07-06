@@ -1,3 +1,4 @@
+import Essential_Feed
 import UIKit
 
 //separate FeedViewController responsabilities and dependencies
@@ -6,7 +7,8 @@ protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
-public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView {
+public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView, FeedErrorView {
+   // @IBOutlet private(set) public var errorView: ErrorView?
     
     var delegate: FeedViewControllerDelegate?
     
@@ -23,8 +25,17 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
         
     }
     
-    func display(viewModel: FeedLoadingViewModel) {
+    public func display(viewModel: FeedLoadingViewModel) {
         viewModel.isLoading ? refreshControl?.beginRefreshing() : refreshControl?.endRefreshing()
+    }
+    
+    public func display(viewModel: FeedErrorViewModel) {
+//        guard let errorMessage = viewModel.message else {
+//            self.errorView?.hideMessage()
+//            return
+//        }
+//
+//        errorView?.show(message: errorMessage)
     }
     
     //MARK: - DATA SOURCE & DELEGATE
