@@ -24,16 +24,21 @@ final class URLSessionHTTPClientTests: XCTestCase {
     }
     
     func test_cancelGetFromURLTask_cancelsURLRequest() {
+        let exp = expectation(description: "Wait for request")
+        URLProtocolStub.observeRequests { _ in exp.fulfill() }
+        
         let receivedError = resultErrorFor(taskHandler: { $0.cancel() }) as NSError?
+        wait(for: [exp], timeout: 1.0)
 
         XCTAssertEqual(receivedError?.code, URLError.cancelled.rawValue)
     }
+    //Wait for URLProtocol to complete the URLRequest after a task has been…
+   // … canceled to avoid a test leak where the URLProtocol would be start the request after the test finishes. This happens because cancelling a URLSessionDataTask won't immediately cancel the URLProtocol from receiving that request. So if we don't wait for it, there's a chance the URLProtocol request will run while another test is running and influence its result.
     
     func test_getFromURL_failsOnRequestError() {
         let requestError = anyNSError()
         let receivedError = resultErrorFor((data: nil, response: nil, error: requestError))
         
-        //XCTAssertEqual(receivedError as? NSError, requestError)
         XCTAssertEqual(receivedError?._code, requestError.code)
     }
     
